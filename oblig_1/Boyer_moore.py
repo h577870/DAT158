@@ -3,7 +3,7 @@ import string
 
 # Bruker kanskje litt lang tid på å søke? Én årsak er at alfabetet inkluderer diverse tegn utover det norske...
 
-file = open('et_dukkehjem.pdf', 'rb')
+file = open('oblig_1/et_dukkehjem.pdf', 'rb')
 pdf_reader = PyPDF2.PdfFileReader(file)
 pages = pdf_reader.numPages
 
@@ -11,7 +11,7 @@ pages = pdf_reader.numPages
 # indekserer string ved bruk av dictionary. Legg til karakterer som ikke finnes i dict dersom programmet feiler,
 # i 'alphabet_dict'. Lesson learned; Ikke bruk fortellinger med gammelt språk.
 def index_string(p: str):
-	alphabet_dict = dict.fromkeys(string.printable + "œæøå\néè«™", -1)
+	alphabet_dict = dict.fromkeys(string.printable + "æøå", -1)
 	
 	# Kan legge inn en sjekk for duplikater, men unødvendig når p er/skal være 5 karakterer lang.
 	for i in p:
@@ -38,7 +38,10 @@ def BMAlgorithm(t, p):
 				i -= 1
 				j -= 1
 		else:
-			foo = dict_temp.get(t[i])
+			if dict_temp.__contains__(t[i]):
+				foo = dict_temp.get(t[i])
+			else:
+				foo = -1
 			# Kommenter ut denne dersom programmet feiler for å finne karakter i debug-mode.
 			# print(t[i])
 			i = i + m - min(j, 1 + foo)
@@ -60,6 +63,7 @@ if __name__ == "__main__":
 		ps = BMAlgorithm(t, p)
 		print('Match: i = %s' % ps)
 		print('Pattern: %s' % p)
+		print('... in text: %s' % text[ps-25:ps+25])
 	
 	
 	pattern = "skyde"  # Sett inn mønster her...
